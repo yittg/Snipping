@@ -31,15 +31,33 @@ def _exception():
     return ''.join(outputs)
 
 
+_inner_name = ['__name__', '__doc__', '__package__', '__builtins__']
+
+
+def exec_globals():
+    return {
+        '__builtins__': six.moves.builtins,
+        '__doc__': None,
+        '__name__': '__main__',
+        '__package__': None,
+    }
+
+
+def exec_locals():
+    return {}
+
+
 def execwrap(content):
     def _inner():
-        six.exec_(compile(content, '<stdin>', 'exec'), locals(), locals())
-        return locals()
+        globals_ = exec_globals()
+        locals_ = globals_
+        six.exec_(compile(content, '<stdin>', 'exec'), globals_, locals_)
+        return locals_
 
-    exec_locals = {}
+    locals_ = {}
     try:
         with reopen_stdout_stderr() as output:
-            exec_locals = _inner()
+            locals_ = _inner()
     except SyntaxError:
         output = "SyntaxError"
     except Exception:
@@ -50,12 +68,9 @@ def execwrap(content):
     output = strutil.ensure_text(output)
 
     exec_locals_text = []
-    if '__builtins__' in exec_locals:
-        exec_locals.pop('__builtins__')
-        exec_locals_text = [u"__builtins__: ..."]
-    if 'content' in exec_locals:
-        exec_locals.pop('content')
-    for k, v in exec_locals.items():
+    for k, v in locals_.items():
+        if k in _inner_name:
+            continue
         if isinstance(v, six.string_types):
             v = strutil.ensure_text(v)
         kvs = u"%s: %s" % (k, v)
