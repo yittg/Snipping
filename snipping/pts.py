@@ -89,24 +89,14 @@ def enter_handler(private=None):
     def handler(event):
         buf = event.cli.current_buffer
 
-        if buf.document.current_line_after_cursor:
-            while buf.document.current_line_after_cursor:
-                buf.cursor_right(1)
-        current_line = buf.document.current_line_before_cursor
-        for c in current_line[-1::-1]:
-            if c == ' ':
-                buf.cursor_left(1)
-            else:
-                break
-        buf.text = buf.text.rstrip(' ')
+        while buf.document.current_line_after_cursor:
+            buf.cursor_right()
+        current_line = buf.document.current_line
+        leading_space_len = len(current_line) - len(current_line.lstrip())
+        trailing_space_len = len(current_line) - len(current_line.rstrip())
+        buf.delete_before_cursor(trailing_space_len)
         buf.insert_text('\n')
-
-        # Copy whitespace from current line
-        for c in current_line:
-            if c == ' ':
-                buf.insert_text(c)
-            else:
-                break
+        buf.insert_text(' ' * leading_space_len)
 
         if private is not None:
             private(event.cli.application)
