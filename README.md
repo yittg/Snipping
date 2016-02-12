@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/yittg/Snipping.svg?branch=master)](https://travis-ci.org/yittg/Snipping)
 
 # Snipping
 Edit and run **python** snippet in realtime.
