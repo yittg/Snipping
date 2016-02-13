@@ -2,8 +2,8 @@
 """
 
 from snipping import application
-from snipping import pts
+from snipping import prompt_toolkit
 
 
 def main():
-    return pts.run(application.default_app)
+    return prompt_toolkit.run(application.default_app)

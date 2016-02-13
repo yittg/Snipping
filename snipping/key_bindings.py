@@ -1,19 +1,23 @@
 """Key binding
 """
 
-from snipping import pts
+from snipping.prompt_toolkit import key_binding
+from snipping.prompt_toolkit import buffers
 
 
 def enter_handler(app):
-    snippet = pts.get_content(app)
+    snippet = buffers.get_content(app)
     result = app.engine.execute(snippet)
     for key, val in result.items():
-        pts.set_content(app, key, val)
+        buffers.set_content(app, key, val)
 
 
 def registry():
-    pts.key_bindings_registry('Tab', pts.tab_handler())
-    pts.key_bindings_registry('ControlC', pts.exit_handler())
+    key_binding.key_bindings_registry('Tab',
+                                      key_binding.tab_handler())
+    key_binding.key_bindings_registry('ControlC',
+                                      key_binding.exit_handler())
     # Enter Key
-    pts.key_bindings_registry('ControlJ', pts.enter_handler(enter_handler))
-    return pts.key_binding_manager()
+    key_binding.key_bindings_registry('ControlJ',
+                                      key_binding.enter_handler(enter_handler))
+    return key_binding.key_binding_manager()
