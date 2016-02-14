@@ -58,3 +58,10 @@ def enter_handler(private=None):
         if private is not None:
             private(event.cli.application)
     return handler
+
+
+def raw_handler(private=None):
+    def handler(event):
+        if private is not None:
+            private(event.cli.application)
+    return handler

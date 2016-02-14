@@ -4,7 +4,7 @@ from snipping.prompt_toolkit import layout
 from snipping.prompt_toolkit import style
 
 HEADER = 'Snipping'
-FOOTER = 'Quit: ctrl-c'
+FOOTER = 'Quit: ctrl-c  Save: <F4>'
 
 
 def create_layout(contents):
