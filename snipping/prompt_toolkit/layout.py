@@ -16,8 +16,6 @@ from snipping.prompt_toolkit import buffers
 def dim(min_=None, max_=None, exact=None):
     if exact is not None:
         return dimension.LayoutDimension.exact(exact)
-    min_ = min_ or 40
-    max_ = max_ or min_
     return dimension.LayoutDimension(min=min_, max=max_)
 
 
