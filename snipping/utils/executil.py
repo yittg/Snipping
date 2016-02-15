@@ -49,31 +49,35 @@ def exec_locals():
 
 def execwrap(content):
     def _inner():
-        globals_ = exec_globals()
-        locals_ = globals_
-        six.exec_(compile(content, '<stdin>', 'exec'), globals_, locals_)
-        return locals_
+        global_env = exec_globals()
+        local_env = global_env
+        six.exec_(compile(content, '<stdin>', 'exec'), global_env, local_env)
+        return global_env
 
-    locals_ = {}
+    globals_ = {}
+    output_handler = None
     try:
-        with reopen_stdout_stderr() as output:
-            locals_ = _inner()
+        with reopen_stdout_stderr() as output_handler:
+            globals_ = _inner()
     except SyntaxError:
         output = "SyntaxError"
     except Exception:
-        output = "%s%s" % (output.getvalue(), _exception())
+        if output_handler is not None:
+            output = "%s%s" % (output_handler.getvalue(), _exception())
+        else:
+            output = _exception()
     else:
-        output = output.getvalue()
+        output = output_handler.getvalue()
 
     output = strutil.ensure_text(output)
 
-    exec_locals_text = []
-    for k, v in locals_.items():
+    globals_texts = []
+    for k, v in globals_.items():
         if k in _inner_name:
             continue
         if isinstance(v, six.string_types):
             v = strutil.ensure_text(v)
         kvs = u"%s: %s" % (k, v)
-        exec_locals_text.append(kvs)
-    locals_text = '\n'.join(exec_locals_text)
-    return output, locals_text
+        globals_texts.append(kvs)
+    globals_text = '\n'.join(globals_texts)
+    return output, globals_text
