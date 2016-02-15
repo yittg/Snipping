@@ -3,11 +3,14 @@
 wrappers for layout
 """
 
+from prompt_toolkit.key_binding import vi_state
 from prompt_toolkit.layout import containers
 from prompt_toolkit.layout import controls
 from prompt_toolkit.layout import dimension
 from prompt_toolkit.layout import margins
 from prompt_toolkit.layout import processors
+from prompt_toolkit.layout import screen
+from prompt_toolkit.layout import toolbars
 
 from snipping.prompt_toolkit import style
 from snipping.prompt_toolkit import buffers
@@ -31,6 +34,28 @@ def vertical_line(min_height=None, max_height=None, char=' '):
     height = dim(min_=min_height, max_=max_height)
     content = controls.FillControl(char, token=style.Line)
     return containers.Window(width=width, height=height, content=content)
+
+
+def text_window_bar(name=None, key_binding_manager=None):
+    def get_tokens(cli):
+        if name != buffers.DEFAULT_BUFFER:
+            return [(style.Bar.Text, "- %s -" % name.upper())]
+        vi_mode = key_binding_manager.get_vi_state(cli).input_mode
+        if vi_mode == vi_state.InputMode.INSERT:
+            text_style = style.Bar.Hl_Text
+        else:
+            text_style = style.Bar.Text
+        tokens = [(text_style, "SNIPPET"),
+                  (text_style, u' \u2022 ')]
+        if vi_mode == vi_state.InputMode.INSERT:
+            tokens.append((text_style, 'INSERT'))
+        elif vi_mode == vi_state.InputMode.NAVIGATION:
+            tokens.append((text_style, 'NORMAL'))
+        else:
+            tokens.append((style.Bar.Text, '[     ]'))
+        return tokens
+    return toolbars.TokenListToolbar(
+        get_tokens, default_char=screen.Char(' ', style.Bar.Text))
 
 
 def normal_text_window(name=None, lang=None, lineno=False,
@@ -82,3 +107,17 @@ def window_rows(windows):
 
 def window_columns(windows):
     return containers.VSplit(windows)
+
+
+def text_window_with_bar(name=None, lang=None, lineno=False,
+                         leading_space=False, trailing_space=False,
+                         width=None, height=None, key_binding_manager=None):
+    if name is None:
+        name = buffers.DEFAULT_BUFFER
+    return window_rows([
+        normal_text_window(
+            name=name, lang=lang, lineno=lineno,
+            leading_space=leading_space, trailing_space=trailing_space,
+            width=width, height=height),
+        text_window_bar(name=name, key_binding_manager=key_binding_manager),
+    ])

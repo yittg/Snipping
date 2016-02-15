@@ -15,8 +15,7 @@ def get_buffer_mapping(buffers=None, include_default=True):
     if include_default:
         bm.update({DEFAULT_BUFFER: buf.Buffer(is_multiline=True)})
     if bm is not None:
-        bm.update(dict([(b, buf.Buffer(is_multiline=True))
-                        for b in buffers]))
+        bm.update(dict([(b, buf.Buffer(is_multiline=True)) for b in buffers]))
     return buffer_mapping.BufferMapping(bm)
 
 

@@ -20,9 +20,11 @@ def get_application():
     app_engine = engine.Engine()
     contents = app_engine.contents()
     key_binding_manager = key_bindings.registry()
+    screen = layout.create_layout(contents, key_binding_manager)
+    bm = buffers.get_buffer_mapping(contents)
     return Application(engine=app_engine,
-                       layout=layout.create_layout(contents),
-                       buffers=buffers.get_buffer_mapping(contents),
+                       layout=screen,
+                       buffers=bm,
                        style=style.default_style,
                        key_bindings_registry=key_binding_manager.registry,
                        use_alternate_screen=True)
