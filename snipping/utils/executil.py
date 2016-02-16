@@ -5,13 +5,25 @@ import traceback
 
 from snipping.utils import strutil
 
+_OUTPUT_STREAM = None
+
+
+def _init_output_stream():
+    global _OUTPUT_STREAM
+    if _OUTPUT_STREAM is None:
+        _OUTPUT_STREAM = six.moves.cStringIO()
+    else:
+        _OUTPUT_STREAM.truncate(0)
+        _OUTPUT_STREAM.seek(0)
+    return _OUTPUT_STREAM
+
 
 @contextlib.contextmanager
 def reopen_stdout_stderr():
     old_stdout, old_stderr = sys.stdout, sys.stderr
-    output = six.moves.cStringIO()
-    sys.stderr = sys.stdout = output
-    yield output
+    _init_output_stream()
+    sys.stderr = sys.stdout = _OUTPUT_STREAM
+    yield _OUTPUT_STREAM
     sys.stdout, sys.stderr = old_stdout, old_stderr
 
 
