@@ -28,11 +28,8 @@ class TestFileOps(object):
         shutil.rmtree(self.home)
 
     def _compare_content(self, filename):
-        with open(filename, 'r') as from_file:
-            content = from_file.read()
-            if six.PY2:
-                content = content.decode('utf-8')
-            assert content == self.content
+        content = fileutil.read_content(filename)
+        assert content == self.content
 
     def test_write_file(self):
         filename = "filename"

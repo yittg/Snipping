@@ -7,10 +7,25 @@ import six
 DEFAULT_FILE_NAME = "file"
 
 
-def write_content(content):
-    if six.PY2:
-        return content.encode('utf-8')
-    return content
+def read_content(filename):
+    with open(filename, 'r') as from_file:
+        content = from_file.read()
+        if six.PY2:
+            content = content.decode('utf-8')
+        return content
+
+
+def write_content(filename, content):
+    with open(filename, 'w') as target_file:
+        if six.PY2:
+            content = content.encode('utf-8')
+        target_file.write(content)
+
+
+def read_from_file(filename):
+    fullname = os.path.abspath(filename)
+    if os.path.exists(fullname) and os.path.isfile(fullname):
+        return read_content(fullname)
 
 
 def write_to_file(filename, content):
@@ -28,5 +43,4 @@ def write_to_file(filename, content):
     directory = os.path.dirname(fullname)
     if not os.path.exists(directory):
         os.mkdir(directory)
-    with open(fullname, 'w') as target_file:
-        target_file.write(write_content(content))
+    write_content(fullname, content)
