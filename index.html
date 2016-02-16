@@ -32,21 +32,27 @@
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
         <h1>
-<a id="snipping" class="anchor" href="#snipping" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Snipping</h1>
-
-<p>Edit and run <strong>python</strong> snippet in real time.</p>
-
-<h1>
 <a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h1>
 
+<p>Just run Snipping like this,</p>
+
 <pre><code>$ snipping
+</code></pre>
+
+<p>Also you can specify the snippet filename.</p>
+
+<p>If the file exists, Snipping will read the content, and save to the file when you <code>Save</code>,
+if not, Snipping will start from empty snippet, and save to the file on command.</p>
+
+<pre><code>$ snipping [path/to/snippet]
 </code></pre>
 
 <h1>
 <a id="special-thanks" class="anchor" href="#special-thanks" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Special thanks</h1>
 
 <ul>
-<li><a href="http://github.com/jonathanslenders/python-prompt-toolkit">prompt_toolkit</a></li>
+<li>
+<a href="http://github.com/jonathanslenders/python-prompt-toolkit">prompt_toolkit</a> for the terminal interface.</li>
 </ul>
 
 <h1>
