@@ -44,3 +44,8 @@ def write_to_file(filename, content):
     if not os.path.exists(directory):
         os.mkdir(directory)
     write_content(fullname, content)
+
+
+def base_name(filename):
+    name = os.path.basename(filename).strip('.')
+    return name.split('.')[0]

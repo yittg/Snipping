@@ -45,7 +45,7 @@ def text_window_bar(name=None, key_binding_manager=None):
             text_style = style.Bar.Hl_Text
         else:
             text_style = style.Bar.Text
-        tokens = [(text_style, "SNIPPET"),
+        tokens = [(text_style, cli.application.snippet.upper()),
                   (text_style, u' \u2022 ')]
         if vi_mode == vi_state.InputMode.INSERT:
             tokens.append((text_style, 'INSERT'))

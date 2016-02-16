@@ -15,7 +15,7 @@ def enter_handler(app):
 
 def write_file_handler(app):
     snippet = buffers.get_content(app)
-    filename = 'snippet.py'
+    filename = app.snippet_file
     fileutil.write_to_file(filename, snippet)
 
 

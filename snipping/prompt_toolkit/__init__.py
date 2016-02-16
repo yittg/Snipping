@@ -16,6 +16,6 @@ def run(app):
     try:
         cli = interface.CommandLineInterface(application=app,
                                              eventloop=eventloop)
-        cli.run()
+        cli.run(reset_current_buffer=False)
     finally:
         eventloop.close()
