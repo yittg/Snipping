@@ -23,7 +23,8 @@ def get_buffer_mapping(buffers=None, include_default=True,
         bm.update({DEFAULT_BUFFER: buf.Buffer(is_multiline=True,
                                               initial_document=init_doc)})
     if bm is not None:
-        bm.update(dict([(b, buf.Buffer(is_multiline=True)) for b in buffers]))
+        bm.update(dict([(b, buf.Buffer(is_multiline=True,
+                                       read_only=True)) for b in buffers]))
     return buffer_mapping.BufferMapping(bm)
 
 
@@ -32,7 +33,8 @@ def get_content(app, name=DEFAULT_BUFFER):
 
 
 def set_content(app, name=DEFAULT_BUFFER, content=None):
-    app.buffers[name].text = content or u""
+    app.buffers[name].set_document(document.Document(content or u"", 0),
+                                   bypass_readonly=True)
 
 
 def next_buffer(buffer_list, curr):
