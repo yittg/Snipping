@@ -33,3 +33,10 @@ def get_content(app, name=DEFAULT_BUFFER):
 
 def set_content(app, name=DEFAULT_BUFFER, content=None):
     app.buffers[name].text = content or u""
+
+
+def next_buffer(buffer_list, curr):
+    buffer_list = buffer_list + [DEFAULT_BUFFER]
+    if curr not in buffer_list:
+        return buffer_list[0]
+    return buffer_list[(buffer_list.index(curr) + 1) % len(buffer_list)]

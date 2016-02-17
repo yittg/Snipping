@@ -4,6 +4,7 @@
 from snipping.prompt_toolkit import key_binding
 from snipping.prompt_toolkit import buffers
 from snipping.utils import fileutil
+from snipping.utils import strutil
 
 
 def enter_handler(app):
@@ -19,6 +20,25 @@ def write_file_handler(app):
     fileutil.write_to_file(filename, snippet)
 
 
+def next_handler(app):
+    buffer_names = app.engine.contents()
+    next_buf = buffers.next_buffer(buffer_names,
+                                   app.buffers.current_name(None))
+    app.buffers.push_focus(None, strutil.ensure_text(next_buf))
+
+
+def prev_handler(app):
+    bm = app.buffers
+    if len(bm.focus_stack) > 1:
+        bm.pop_focus(None)
+
+
+REGISTER_KEYS = [('^c', 'Quit'),
+                 ('^n', 'Next'),
+                 ('^p', 'Prev'),
+                 ('F4', 'Save')]
+
+
 def registry():
     key_binding.key_bindings_registry(
         'Tab', key_binding.tab_handler())
@@ -27,6 +47,10 @@ def registry():
     # Enter Key
     key_binding.key_bindings_registry(
         'ControlJ', key_binding.enter_handler(enter_handler))
+    key_binding.key_bindings_registry(
+        'ControlN', key_binding.raw_handler(next_handler))
+    key_binding.key_bindings_registry(
+        'ControlP', key_binding.raw_handler(prev_handler))
     key_binding.key_bindings_registry(
         'F4', key_binding.raw_handler(write_file_handler))
     return key_binding.key_binding_manager()

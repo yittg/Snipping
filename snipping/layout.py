@@ -1,5 +1,6 @@
 """layout"""
 
+from snipping import key_bindings
 from snipping.prompt_toolkit import layout
 from snipping.prompt_toolkit import style
 
@@ -12,10 +13,11 @@ def title_tokens(_):
 
 
 def footer_tokens(_):
-    return [(style.Key, '[^c]'),
-            (style.Token, ' Quit '),
-            (style.Key, '[F4]'),
-            (style.Token, ' Save ')]
+    tokens = []
+    for token in key_bindings.REGISTER_KEYS:
+        tokens.append((style.Key, "[%s]" % token[0]))
+        tokens.append((style.Token, " %s " % token[1]))
+    return tokens
 
 
 def create_layout(contents, key_binding_manager=None):
