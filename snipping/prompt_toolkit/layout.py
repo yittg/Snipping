@@ -38,22 +38,24 @@ def vertical_line(min_height=None, max_height=None, char=' '):
 
 def text_window_bar(name=None, key_binding_manager=None):
     def get_tokens(cli):
+        text_style = style.Bar.Text
         if name != buffers.DEFAULT_BUFFER:
-            return [(style.Bar.Text, "- %s -" % name.upper())]
-        vi_mode = key_binding_manager.get_vi_state(cli).input_mode
-        if vi_mode == vi_state.InputMode.INSERT:
-            text_style = style.Bar.Hl_Text
+            return [(text_style, "- %s -" % name.upper())]
+        if cli.current_buffer_name == name:
+            vi_mode = key_binding_manager.get_vi_state(cli).input_mode
+            if vi_mode == vi_state.InputMode.INSERT:
+                text_style = style.Bar.Hl_Text
+            tokens = [(text_style, cli.application.snippet.upper()),
+                      (text_style, u' \u2022 ')]
+            if vi_mode == vi_state.InputMode.INSERT:
+                tokens.append((text_style, 'INSERT'))
+            elif vi_mode == vi_state.InputMode.NAVIGATION:
+                tokens.append((text_style, 'NORMAL'))
+            else:
+                tokens.append((text_style, '[     ]'))
+            return tokens
         else:
-            text_style = style.Bar.Text
-        tokens = [(text_style, cli.application.snippet.upper()),
-                  (text_style, u' \u2022 ')]
-        if vi_mode == vi_state.InputMode.INSERT:
-            tokens.append((text_style, 'INSERT'))
-        elif vi_mode == vi_state.InputMode.NAVIGATION:
-            tokens.append((text_style, 'NORMAL'))
-        else:
-            tokens.append((style.Bar.Text, '[     ]'))
-        return tokens
+            return [(text_style, cli.application.snippet.upper())]
     return toolbars.TokenListToolbar(
         get_tokens, default_char=screen.Char(' ', style.Bar.Text))
 

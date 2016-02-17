@@ -48,9 +48,13 @@ def registry():
     key_binding.key_bindings_registry(
         'ControlJ', key_binding.enter_handler(enter_handler))
     key_binding.key_bindings_registry(
-        'ControlN', key_binding.raw_handler(next_handler))
+        'ControlN',
+        key_binding.raw_handler(next_handler),
+        condition=key_binding.ViNormalMode())
     key_binding.key_bindings_registry(
-        'ControlP', key_binding.raw_handler(prev_handler))
+        'ControlP',
+        key_binding.raw_handler(prev_handler),
+        condition=key_binding.ViNormalMode())
     key_binding.key_bindings_registry(
         'F4', key_binding.raw_handler(write_file_handler))
     return key_binding.key_binding_manager()

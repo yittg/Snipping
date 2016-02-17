@@ -4,7 +4,9 @@ wrappers for key bindings
 """
 
 from prompt_toolkit import keys
+from prompt_toolkit import filters
 from prompt_toolkit.key_binding import manager
+from prompt_toolkit.key_binding import vi_state
 
 
 _KEY_BINDING_MANAGERS = {
@@ -16,11 +18,24 @@ def key_binding_manager(name='default'):
     return _KEY_BINDING_MANAGERS[name]
 
 
-def key_bindings_registry(key, handler):
+class ViNormalMode(filters.Filter):
+    def __init__(self):
+        self.state = vi_state.InputMode.NAVIGATION
+
+    def __call__(self, cli):
+        kbm = key_binding_manager()
+        return kbm.get_vi_state(cli).input_mode == self.state
+
+
+def key_bindings_registry(key, handler, condition=None):
     kbm = key_binding_manager()
     key_cls = getattr(keys.Keys, key)
 
-    @kbm.registry.add_binding(key_cls, eager=True)
+    attr = {'eager': True}
+    if condition is not None:
+        attr.update({'filter': condition})
+
+    @kbm.registry.add_binding(key_cls, **attr)
     def _(event):
         handler(event)
 
