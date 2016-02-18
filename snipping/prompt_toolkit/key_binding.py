@@ -40,6 +40,29 @@ def key_bindings_registry(key, handler, condition=None):
         handler(event)
 
 
+def key_bindings_rewrite(key, handler, condition=None, origin=True):
+    kbm = key_binding_manager()
+    key_cls = getattr(keys.Keys, key)
+
+    attr = {'eager': True}
+    if condition is not None:
+        attr.update({'filter': condition})
+
+    origin_handlers = None
+    if origin:
+        origin_handlers = kbm.registry.get_bindings_for_keys((key_cls,))
+
+    @kbm.registry.add_binding(key_cls, **attr)
+    def _(event):
+        # FIXME: May not a good way
+        if origin_handlers is not None:
+            filter_handlers = [h for h in origin_handlers
+                               if h.filter(event.cli)]
+            if len(filter_handlers) > 1:
+                filter_handlers[-2].call(event)
+        handler(event)
+
+
 def tab_handler(private=None):
     def handler(event):
         b = event.cli.current_buffer

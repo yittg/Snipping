@@ -17,5 +17,8 @@ class Engine(object):
     def execute(self, snippet):
         return self.driver.execute(snippet)
 
+    def compile(self, snippet):
+        return self.driver.compile(snippet)
+
     def newline(self):
         return self.driver.newline()

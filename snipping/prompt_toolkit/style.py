@@ -13,6 +13,7 @@ Line = Token.Line
 Title = Token.Title
 Bar = Token.Bar
 Key = Token.Key
+ErrorLineNo = Token.ErrorLineNo
 
 style_dict = {
     Line:   "#ffffff bg:#666666",
@@ -20,6 +21,7 @@ style_dict = {
     Bar.Text: "#111111 bg:#666666",
     Bar.Hl_Text: "#ffffff bg:#666666",
     Key: "#ffffff bg:#222222",
+    ErrorLineNo: "#ff0000",
 }
 
 default_style = styles.PygmentsStyle.from_defaults(style_dict)

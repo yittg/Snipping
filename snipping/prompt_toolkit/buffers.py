@@ -33,6 +33,8 @@ def get_content(app, name=DEFAULT_BUFFER):
 
 
 def set_content(app, name=DEFAULT_BUFFER, content=None):
+    if content is None:
+        return
     app.buffers[name].set_document(document.Document(content or u"", 0),
                                    bypass_readonly=True)
 

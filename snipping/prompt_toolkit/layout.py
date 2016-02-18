@@ -16,6 +16,38 @@ from snipping.prompt_toolkit import style
 from snipping.prompt_toolkit import buffers
 
 
+class NumberredMargin(margins.NumberredMargin):
+    """ A simple and customized `create_margin` of origin `NumberredMargin`
+    """
+
+    def create_margin(self, cli, wr_info, width, height):
+        visible_line_to_input_line = wr_info.visible_line_to_input_line
+
+        token = style.Token.LineNumber
+        token_error = style.ErrorLineNo
+
+        result = []
+
+        app = cli.application
+        snippet = buffers.get_content(app)
+        cp = app.engine.compile(snippet)
+
+        for y in range(wr_info.window_height):
+            line_number = visible_line_to_input_line.get(y)
+
+            if line_number is not None:
+                if cp is not None and line_number + 1 == cp:
+                    result.append((token_error,
+                                   ('%i ' % (line_number + 1)).rjust(width)))
+                else:
+                    result.append((token,
+                                   ('%i ' % (line_number + 1)).rjust(width)))
+
+            result.append((style.Token, '\n'))
+
+        return result
+
+
 def dim(min_=None, max_=None, exact=None):
     if exact is not None:
         return dimension.LayoutDimension.exact(exact)
@@ -79,7 +111,7 @@ def normal_text_window(name=None, lang=None, lineno=False,
     win_attrs = {}
     left_margins = []
     if lineno:
-        left_margins.append(margins.NumberredMargin(name))
+        left_margins.append(NumberredMargin(name))
     if left_margins:
         win_attrs['left_margins'] = left_margins
 

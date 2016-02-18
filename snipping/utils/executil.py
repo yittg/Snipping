@@ -59,11 +59,15 @@ def exec_locals():
     return {}
 
 
+def compile_text(content):
+    return compile(content, '<stdin>', 'exec')
+
+
 def execwrap(content):
     def _inner():
         global_env = exec_globals()
         local_env = global_env
-        six.exec_(compile(content, '<stdin>', 'exec'), global_env, local_env)
+        six.exec_(compile_text(content), global_env, local_env)
         return global_env
 
     globals_ = {}
@@ -71,8 +75,6 @@ def execwrap(content):
     try:
         with reopen_stdout_stderr() as output_handler:
             globals_ = _inner()
-    except SyntaxError:
-        output = "SyntaxError"
     except Exception:
         if output_handler is not None:
             output = "%s%s" % (output_handler.getvalue(), _exception())

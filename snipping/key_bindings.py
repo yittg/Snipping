@@ -7,13 +7,6 @@ from snipping.utils import fileutil
 from snipping.utils import strutil
 
 
-def enter_handler(app):
-    snippet = buffers.get_content(app)
-    result = app.engine.execute(snippet)
-    for key, val in result.items():
-        buffers.set_content(app, key, val)
-
-
 def write_file_handler(app):
     snippet = buffers.get_content(app)
     filename = app.snippet_file
@@ -33,6 +26,13 @@ def prev_handler(app):
         bm.pop_focus(None)
 
 
+def escape_handler(app):
+    snippet = buffers.get_content(app)
+    result = app.engine.execute(snippet)
+    for key, val in result.items():
+        buffers.set_content(app, key, val)
+
+
 REGISTER_KEYS = [('^c', 'Quit'),
                  ('^n', 'Next'),
                  ('^p', 'Prev'),
@@ -46,7 +46,7 @@ def registry():
         'ControlC', key_binding.exit_handler())
     # Enter Key
     key_binding.key_bindings_registry(
-        'ControlJ', key_binding.enter_handler(enter_handler))
+        'ControlJ', key_binding.enter_handler())
     key_binding.key_bindings_registry(
         'ControlN',
         key_binding.raw_handler(next_handler),
@@ -57,4 +57,8 @@ def registry():
         condition=key_binding.ViNormalMode())
     key_binding.key_bindings_registry(
         'F4', key_binding.raw_handler(write_file_handler))
+    key_binding.key_bindings_rewrite(
+        'Escape', key_binding.raw_handler(escape_handler),
+        condition=~key_binding.ViNormalMode()
+    )
     return key_binding.key_binding_manager()

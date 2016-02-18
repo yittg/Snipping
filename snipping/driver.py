@@ -20,5 +20,9 @@ class DriverBase(object):
         pass
 
     @abc.abstractmethod
+    def compile(self, snippet):
+        pass
+
+    @abc.abstractmethod
     def newline(self):
         pass
