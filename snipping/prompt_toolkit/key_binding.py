@@ -51,7 +51,7 @@ def key_bindings_rewrite(key, handler, condition=None, origin=True):
 
     origin_handlers = None
     if origin:
-        origin_handlers = kbm.registry.get_bindings_for_keys((key_cls,))
+        origin_handlers = kbm.registry.get_bindings_for_keys((key_cls,))[:]
 
     @kbm.registry.add_binding(key_cls, **attr)
     def _(event):
@@ -59,8 +59,8 @@ def key_bindings_rewrite(key, handler, condition=None, origin=True):
         if origin_handlers is not None:
             filter_handlers = [h for h in origin_handlers
                                if h.filter(event.cli)]
-            if len(filter_handlers) > 1:
-                filter_handlers[-2].call(event)
+            if filter_handlers:
+                filter_handlers[-1].call(event)
         handler(event)
 
 
