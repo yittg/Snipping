@@ -44,3 +44,11 @@ def next_buffer(buffer_list, curr):
     if curr not in buffer_list:
         return buffer_list[0]
     return buffer_list[(buffer_list.index(curr) + 1) % len(buffer_list)]
+
+
+def buffer_display(app, name):
+    display = app.buffer_display(name).upper()
+    buffer = app.buffers.get(name, None)
+    if buffer.read_only():
+        display = "- %s -" % display
+    return display, buffer.read_only()

@@ -24,6 +24,11 @@ class Application(prompt_toolkit.Application):
     def snippet(self):
         return fileutil.base_name(self.snippet_file)
 
+    def buffer_display(self, name):
+        if name is buffers.DEFAULT_BUFFER:
+            return self.snippet
+        return name
+
 
 def get_application(init_file=None):
     app_engine = engine.Engine()

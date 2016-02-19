@@ -71,13 +71,12 @@ def vertical_line(min_height=None, max_height=None, char=' '):
 def text_window_bar(name=None, key_binding_manager=None):
     def get_tokens(cli):
         text_style = style.Bar.Text
-        if name != buffers.DEFAULT_BUFFER:
-            return [(text_style, "- %s -" % name.upper())]
-        if cli.current_buffer_name == name:
+        display_text, read_only = buffers.buffer_display(cli.application, name)
+        if not read_only and cli.current_buffer_name == name:
             vi_mode = key_binding_manager.get_vi_state(cli).input_mode
             if vi_mode == vi_state.InputMode.INSERT:
                 text_style = style.Bar.Hl_Text
-            tokens = [(text_style, cli.application.snippet.upper()),
+            tokens = [(text_style, display_text),
                       (text_style, u' \u2022 ')]
             if vi_mode == vi_state.InputMode.INSERT:
                 tokens.append((text_style, 'INSERT'))
@@ -87,7 +86,7 @@ def text_window_bar(name=None, key_binding_manager=None):
                 tokens.append((text_style, '[     ]'))
             return tokens
         else:
-            return [(text_style, cli.application.snippet.upper())]
+            return [(text_style, display_text)]
     return toolbars.TokenListToolbar(
         get_tokens, default_char=screen.Char(' ', style.Bar.Text))
 
