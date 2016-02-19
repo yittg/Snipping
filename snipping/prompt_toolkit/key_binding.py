@@ -10,7 +10,8 @@ from prompt_toolkit.key_binding import vi_state
 
 
 _KEY_BINDING_MANAGERS = {
-    'default': manager.KeyBindingManager(enable_vi_mode=True)}
+    'default': manager.KeyBindingManager(enable_vi_mode=True,
+                                         enable_extra_page_navigation=True)}
 
 
 def key_binding_manager(name='default'):
