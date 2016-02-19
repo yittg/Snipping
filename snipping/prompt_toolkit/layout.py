@@ -7,6 +7,7 @@ from prompt_toolkit.key_binding import vi_state
 from prompt_toolkit.layout import containers
 from prompt_toolkit.layout import controls
 from prompt_toolkit.layout import dimension
+from prompt_toolkit.layout import highlighters
 from prompt_toolkit.layout import margins
 from prompt_toolkit.layout import processors
 from prompt_toolkit.layout import screen
@@ -97,7 +98,8 @@ def normal_text_window(name=None, lang=None, lineno=False,
     if name is None:
         name = buffers.DEFAULT_BUFFER
     bf_attrs = {'buffer_name': name,
-                'lexer': style.get_lexer_by_lang(lang)}
+                'lexer': style.get_lexer_by_lang(lang),
+                'highlighters': [highlighters.SelectionHighlighter()]}
 
     input_processors = []
     if leading_space:
