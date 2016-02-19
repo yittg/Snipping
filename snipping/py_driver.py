@@ -9,19 +9,20 @@ class PyDriver(driver.DriverBase):
 
     def __init__(self):
         self.fields = ['RESULT', 'GLOBALS']
+        self.snippet = None
         self.compiled = None
         self.err_lineno = None
-        self.none_res = {'RESULT': None, 'GLOBALS': None}
 
     def contents(self):
         return self.fields
 
     def execute(self, snippet):
-        if not snippet:
-            return self.none_res
-        if self._compile(snippet) is not None:
-            return self.none_res
-        output, globals_text = executil.execwrap(snippet)
+        if not snippet or snippet == self.snippet:
+            return {}
+        self.snippet = snippet
+        if self._compile(self.snippet) is not None:
+            return {}
+        output, globals_text = executil.execwrap(self.compiled)
 
         return {'RESULT': output, 'GLOBALS': globals_text}
 

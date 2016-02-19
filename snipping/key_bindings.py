@@ -26,7 +26,7 @@ def prev_handler(app):
         bm.pop_focus(None)
 
 
-def escape_handler(app):
+def execute_handler(app):
     snippet = buffers.get_content(app)
     result = app.engine.execute(snippet)
     for key, val in result.items():
@@ -58,7 +58,5 @@ def registry():
     key_binding.key_bindings_registry(
         'F4', key_binding.raw_handler(write_file_handler))
     key_binding.key_bindings_rewrite(
-        'Escape', key_binding.raw_handler(escape_handler),
-        condition=~key_binding.ViNormalMode()
-    )
+        'Escape', key_binding.raw_handler(execute_handler))
     return key_binding.key_binding_manager()

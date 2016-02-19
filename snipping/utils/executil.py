@@ -64,10 +64,13 @@ def compile_text(content):
 
 
 def execwrap(content):
+    if isinstance(content, six.string_types):
+        content = compile_text(content)
+
     def _inner():
         global_env = exec_globals()
         local_env = global_env
-        six.exec_(compile_text(content), global_env, local_env)
+        six.exec_(content, global_env, local_env)
         return global_env
 
     globals_ = {}
