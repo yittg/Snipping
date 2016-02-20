@@ -5,6 +5,8 @@ Snipping
 
 A tool to edit and run **python** snippet in real time.
 
+.. image:: ./assets/screenshot.png
+
 Usage
 =====
 
@@ -33,9 +35,9 @@ Special thanks
 Notice
 ======
 
-In ``snipping``, ``sys.stdout`` and ``sys.stderr`` is redirected to a
+In Snipping, ``sys.stdout`` and ``sys.stderr`` is redirected to a
 ``stringIO``, so actions related to them may be different from the
-original Python.
+original.
 
 .. |Build Status| image:: https://travis-ci.org/yittg/Snipping.svg?branch=master
    :target: https://travis-ci.org/yittg/Snipping
