@@ -33,6 +33,14 @@ def execute_handler(app):
         buffers.set_content(app, key, val)
 
 
+def auto_indent_handler(app):
+    current_buffer = app.buffers.current(None)
+    prev_line = buffers.prev_line(current_buffer)
+
+    if prev_line is not None and app.engine.indent(prev_line):
+        buffers.indent(current_buffer)
+
+
 REGISTER_KEYS = [('^c', 'Quit'),
                  ('^n', 'Next'),
                  ('^p', 'Prev'),
@@ -46,7 +54,7 @@ def registry():
         'ControlC', key_binding.exit_handler())
     # Enter Key
     key_binding.key_bindings_registry(
-        'ControlJ', key_binding.enter_handler())
+        'ControlJ', key_binding.enter_handler(auto_indent_handler))
     key_binding.key_bindings_registry(
         'ControlN',
         key_binding.raw_handler(next_handler),

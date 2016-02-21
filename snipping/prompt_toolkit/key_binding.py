@@ -8,6 +8,7 @@ from prompt_toolkit import filters
 from prompt_toolkit.key_binding import manager
 from prompt_toolkit.key_binding import vi_state
 
+from snipping.prompt_toolkit import buffers
 
 _KEY_BINDING_MANAGERS = {
     'default': manager.KeyBindingManager(enable_vi_mode=True,
@@ -85,14 +86,8 @@ def enter_handler(private=None):
     def handler(event):
         buf = event.cli.current_buffer
 
-        while buf.document.current_line_after_cursor:
-            buf.cursor_right()
-        current_line = buf.document.current_line
-        leading_space_len = len(current_line) - len(current_line.lstrip())
-        trailing_space_len = len(current_line) - len(current_line.rstrip())
-        buf.delete_before_cursor(trailing_space_len)
-        buf.insert_text('\n')
-        buf.insert_text(' ' * leading_space_len)
+        buffers.strip_trailing_space(buf)
+        buf.newline()
 
         if private is not None:
             private(event.cli.application)

@@ -20,5 +20,5 @@ class Engine(object):
     def compile(self, snippet):
         return self.driver.compile(snippet)
 
-    def newline(self):
-        return self.driver.newline()
+    def indent(self, prev_line):
+        return self.driver.indent(prev_line)

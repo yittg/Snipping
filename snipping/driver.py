@@ -24,5 +24,5 @@ class DriverBase(object):
         pass
 
     @abc.abstractmethod
-    def newline(self):
+    def indent(self, prev_line):
         pass

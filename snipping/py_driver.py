@@ -39,5 +39,7 @@ class PyDriver(driver.DriverBase):
     def compile(self, snippet):
         return self.err_lineno
 
-    def newline(self):
-        pass
+    def indent(self, prev_line):
+        if prev_line.endswith(':'):
+            return True
+        return False
