@@ -68,6 +68,10 @@ def next_line(buf):
     return None
 
 
+def leading_space(buf):
+    return buf.document.leading_whitespace_in_current_line
+
+
 def strip_trailing_space(buf):
     current_line = buf.document.current_line
     after_cursor_len = len(buf.document.current_line_after_cursor)

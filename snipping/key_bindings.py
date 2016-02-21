@@ -37,8 +37,10 @@ def auto_indent_handler(app):
     current_buffer = app.buffers.current(None)
     prev_line = buffers.prev_line(current_buffer)
 
-    if prev_line is not None and app.engine.indent(prev_line):
-        buffers.indent(current_buffer)
+    if prev_line is not None:
+        indent_text = app.engine.indent(prev_line)
+        if indent_text is not None:
+            buffers.indent(current_buffer, indent_text)
 
 
 REGISTER_KEYS = [('^c', 'Quit'),

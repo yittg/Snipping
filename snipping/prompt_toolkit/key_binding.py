@@ -85,9 +85,10 @@ def exit_handler(private=None):
 def enter_handler(private=None):
     def handler(event):
         buf = event.cli.current_buffer
-
+        leading_space = buffers.leading_space(buf)
         buffers.strip_trailing_space(buf)
-        buf.newline()
+        buf.newline(copy_margin=False)
+        buf.insert_text(leading_space)
 
         if private is not None:
             private(event.cli.application)

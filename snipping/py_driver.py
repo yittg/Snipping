@@ -41,5 +41,5 @@ class PyDriver(driver.DriverBase):
 
     def indent(self, prev_line):
         if prev_line.endswith(':'):
-            return True
-        return False
+            return '    '
+        return None
