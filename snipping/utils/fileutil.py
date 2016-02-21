@@ -3,8 +3,43 @@
 
 import os
 import six
+import tempfile
 
 DEFAULT_FILE_NAME = "file"
+
+TEMP_FILES = {}
+
+
+class TempFile(object):
+
+    def __init__(self, **kwargs):
+        self._file = tempfile.NamedTemporaryFile(**kwargs)
+
+    def __getattr__(self, item):
+        return getattr(self._file, item)
+
+    def read(self, from_start=True):
+        if from_start:
+            self._file.seek(0)
+        content = self._file.read()
+        if six.PY2:
+            return content.decode('utf-8')
+        return content
+
+    def reset(self):
+        self._file.truncate(0)
+        self._file.seek(0)
+
+
+def temp_file(name='default', initial=True):
+    global TEMP_FILES
+    f = TEMP_FILES.get(name, None)
+    if f is None:
+        f = TempFile(mode='w+', suffix='.snipping')
+        TEMP_FILES[name] = f
+    elif initial:
+        f.reset()
+    return f
 
 
 def read_content(filename):

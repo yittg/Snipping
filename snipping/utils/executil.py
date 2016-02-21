@@ -3,28 +3,20 @@ import sys
 import six
 import traceback
 
+from snipping.utils import fileutil
 from snipping.utils import strutil
-
-_OUTPUT_STREAM = None
-
-
-def _init_output_stream():
-    global _OUTPUT_STREAM
-    if _OUTPUT_STREAM is None:
-        _OUTPUT_STREAM = six.moves.cStringIO()
-    else:
-        _OUTPUT_STREAM.truncate(0)
-        _OUTPUT_STREAM.seek(0)
-    return _OUTPUT_STREAM
 
 
 @contextlib.contextmanager
 def reopen_stdout_stderr():
+    f = fileutil.temp_file()
+
     old_stdout, old_stderr = sys.stdout, sys.stderr
-    _init_output_stream()
-    sys.stderr = sys.stdout = _OUTPUT_STREAM
-    yield _OUTPUT_STREAM
-    sys.stdout, sys.stderr = old_stdout, old_stderr
+    sys.stderr = sys.stdout = f
+    try:
+        yield f
+    finally:
+        sys.stdout, sys.stderr = old_stdout, old_stderr
 
 
 def _exception():
@@ -80,11 +72,12 @@ def execwrap(content):
             globals_ = _inner()
     except Exception:
         if output_handler is not None:
-            output = "%s%s" % (output_handler.getvalue(), _exception())
+            output = "%s%s" % (output_handler.read(),
+                               _exception())
         else:
             output = _exception()
     else:
-        output = output_handler.getvalue()
+        output = output_handler.read()
 
     output = strutil.ensure_text(output)
 
