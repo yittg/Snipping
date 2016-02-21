@@ -5,7 +5,7 @@ Snipping
 
 A tool to edit and run **python** snippet in real time.
 
-.. image:: ./assets/screenshot.png
+.. image:: https://raw.githubusercontent.com/yittg/Snipping/master/assets/screenshot.png
 
 Usage
 =====

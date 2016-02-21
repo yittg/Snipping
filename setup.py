@@ -9,7 +9,7 @@ setup(
     name='snipping',
     author='Yi Tang',
     author_email='ssnailtang@gmail.com',
-    version='0.1',
+    version='0.2',
     description='Edit and run snippet in real time',
     long_description=readme(),
     url='https://github.com/yittg/snipping',
