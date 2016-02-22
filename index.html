@@ -1,37 +1,35 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en-us">
   <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="description" content="Snipping : Edit and run python snippet in real time">
-
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-
-    <title>Snipping</title>
+    <meta charset="UTF-8">
+    <title>Snipping by yittg</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
   </head>
-
   <body>
+    <section class="page-header">
+      <h1 class="project-name">Snipping</h1>
+      <h2 class="project-tagline">Edit and run python snippet in real time</h2>
+      <a href="https://github.com/yittg/Snipping" class="btn">View on GitHub</a>
+      <a href="https://github.com/yittg/Snipping/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/yittg/Snipping/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/yittg/Snipping">View on GitHub</a>
+    <section class="main-content">
+      <p><a href="https://travis-ci.org/yittg/Snipping"><img src="https://travis-ci.org/yittg/Snipping.svg?branch=master" alt="Build
+Status"></a></p>
 
-          <h1 id="project_title">Snipping</h1>
-          <h2 id="project_tagline">Edit and run python snippet in real time</h2>
+<h1>
+<a id="snipping" class="anchor" href="#snipping" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Snipping</h1>
 
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/yittg/Snipping/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/yittg/Snipping/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
-    </div>
+<p>A tool to edit and run <strong>python</strong> snippet in real time.</p>
 
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <h1>
+<p><img src="https://raw.githubusercontent.com/yittg/Snipping/master/assets/screenshot.png" alt="image"></p>
+
+<h1>
 <a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h1>
 
 <p>Just run Snipping like this,</p>
@@ -39,10 +37,11 @@
 <pre><code>$ snipping
 </code></pre>
 
-<p>Also you can specify the snippet filename.</p>
+<p>Also you can specify the snippet file.</p>
 
-<p>If the file exists, Snipping will read the content, and save to the file when you <code>Save</code>,
-if not, Snipping will start from empty snippet, and save to the file on command.</p>
+<p>If the file exists, Snipping will read the content, and save to the file
+when you <code>Save</code>, if not, Snipping will start from empty snippet, and
+save to the file on command.</p>
 
 <pre><code>$ snipping [path/to/snippet]
 </code></pre>
@@ -51,26 +50,18 @@ if not, Snipping will start from empty snippet, and save to the file on command.
 <a id="special-thanks" class="anchor" href="#special-thanks" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Special thanks</h1>
 
 <ul>
-<li>
-<a href="http://github.com/jonathanslenders/python-prompt-toolkit">prompt_toolkit</a> for the terminal interface.</li>
+<li>  <a href="http://github.com/jonathanslenders/python-prompt-toolkit">prompt_toolkit</a>
+for the terminal interface.</li>
 </ul>
 
-<h1>
-<a id="notice" class="anchor" href="#notice" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Notice</h1>
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/yittg/Snipping">Snipping</a> is maintained by <a href="https://github.com/yittg">yittg</a>.</span>
 
-<p>In <code>snipping</code>, <code>sys.stdout</code> and <code>sys.stderr</code> is redirected to a <code>stringIO</code>, so actions related to them may be different from the original Python.</p>
-      </section>
-    </div>
-
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">Snipping maintained by <a href="https://github.com/yittg">yittg</a></p>
-        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
       </footer>
-    </div>
 
-    
+    </section>
 
+  
   </body>
 </html>
