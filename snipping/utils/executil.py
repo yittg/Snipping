@@ -35,9 +35,6 @@ def _exception():
     return ''.join(outputs)
 
 
-_inner_name = ['__name__', '__doc__', '__package__', '__builtins__']
-
-
 def exec_globals():
     return {
         '__builtins__': six.moves.builtins,
@@ -81,13 +78,4 @@ def execwrap(content):
 
     output = strutil.ensure_text(output)
 
-    globals_texts = []
-    for k, v in globals_.items():
-        if k in _inner_name:
-            continue
-        if isinstance(v, six.string_types):
-            v = strutil.ensure_text(v)
-        kvs = u"%s: %s" % (k, v)
-        globals_texts.append(kvs)
-    globals_text = '\n'.join(globals_texts)
-    return output, globals_text
+    return output, globals_
