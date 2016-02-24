@@ -31,10 +31,11 @@ class PyDriver(driver.DriverBase):
         for k, v in globals_.items():
             if k in PyDriver._inner_name:
                 continue
-            global_tuples.append((type(v).__name__, k, v))
+            global_tuples.append((k, v))
 
-        globals_text = '\n'.join([u"%s: %r" % (t[1], t[2]) for t
-                                  in sorted(global_tuples)])
+        globals_text = '\n'.join([u"%s: %r" % (k, v) for k, v
+                                  in sorted(global_tuples,
+                                            key=lambda t: u"%r" % t[1])])
         return {'RESULT': output, 'GLOBALS': globals_text}
 
     def _compile(self, snippet):
