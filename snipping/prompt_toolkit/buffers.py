@@ -32,10 +32,15 @@ def get_content(app, name=DEFAULT_BUFFER):
     return app.buffers[name].text
 
 
-def set_content(app, name=DEFAULT_BUFFER, content=None):
+def set_content(app, name=DEFAULT_BUFFER, content=None, scroll_bottom=False):
     if content is None:
         return
-    app.buffers[name].set_document(document.Document(content or u"", 0),
+
+    position = 0
+    if scroll_bottom:
+        position = len(content)
+    app.buffers[name].set_document(document.Document(u"%s" % content,
+                                                     position),
                                    bypass_readonly=True)
 
 

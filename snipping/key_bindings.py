@@ -30,7 +30,7 @@ def execute_handler(app):
     snippet = buffers.get_content(app)
     result = app.engine.execute(snippet)
     for key, val in result.items():
-        buffers.set_content(app, key, val)
+        buffers.set_content(app, key, val, scroll_bottom=True)
 
 
 def auto_indent_handler(app):
