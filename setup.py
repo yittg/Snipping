@@ -16,7 +16,7 @@ setup(
     license='MIT',
     packages=find_packages('.'),
     install_requires=[
-        'prompt_toolkit',
+        'prompt_toolkit==0.57',
         'pygments',
         'six',
     ],
