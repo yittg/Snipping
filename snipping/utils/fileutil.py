@@ -18,6 +18,14 @@ class TempFile(object):
     def __getattr__(self, item):
         return getattr(self._file, item)
 
+    def write(self, content, initial=False):
+        if initial:
+            self.reset()
+        if six.PY2:
+            if isinstance(content, six.text_type):
+                content = content.encode('utf-8')
+        return self._file.write(content)
+
     def read(self, from_start=True):
         if from_start:
             self._file.seek(0)
