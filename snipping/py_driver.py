@@ -8,16 +8,17 @@ from snipping.utils import executil
 class PyDriver(driver.DriverBase):
 
     _inner_name = ['__name__', '__doc__', '__package__', '__builtins__']
+    _fields = ['RESULT', 'GLOBALS']
 
-    def __init__(self):
-        self.fields = ['RESULT', 'GLOBALS']
+    def __init__(self, from_file=None):
+        self.from_file = from_file
         self.snippet = None
         self.compiled = None
         self.err_lineno = None
         super(PyDriver, self).__init__()
 
     def contents(self):
-        return self.fields
+        return self._fields
 
     def execute(self, snippet):
         if not snippet or snippet == self.snippet:
@@ -25,7 +26,8 @@ class PyDriver(driver.DriverBase):
         self.snippet = snippet
         if self._compile(self.snippet) is not None:
             return {}
-        output, globals_ = executil.execwrap(self.compiled)
+        output, globals_ = executil.execwrap(self.compiled,
+                                             from_file=self.from_file)
 
         global_tuples = []
         for k, v in globals_.items():
@@ -40,7 +42,7 @@ class PyDriver(driver.DriverBase):
 
     def _compile(self, snippet):
         try:
-            self.compiled = executil.compile_text(snippet)
+            self.compiled = executil.compile_text(snippet, self.from_file)
             self.err_lineno = None
         except SyntaxError as e:
             self.compiled = None

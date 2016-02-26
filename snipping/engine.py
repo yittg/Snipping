@@ -8,8 +8,9 @@ DRIVER_MODULE = {'python': 'snipping.py_driver.PyDriver'}
 
 class Engine(object):
 
-    def __init__(self, driver='python'):
-        self.driver = importutil.import_class(DRIVER_MODULE[driver])()
+    def __init__(self, driver='python', from_file=None):
+        self.driver = importutil.import_class(DRIVER_MODULE[driver])(
+            from_file=from_file)
 
     def contents(self):
         return self.driver.contents()

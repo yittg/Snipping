@@ -19,12 +19,12 @@ def reopen_stdout_stderr():
         sys.stdout, sys.stderr = old_stdout, old_stderr
 
 
-def _exception():
+def _exception(top_frame):
     t, v, tb = sys.exc_info()
     tbs = traceback.extract_tb(tb)
 
     for seq, tb_tuple in enumerate(tbs):
-        if tb_tuple[0] == '<stdin>':
+        if tb_tuple[0] == top_frame:
             tbs = tbs[seq:]
             break
 
@@ -48,13 +48,14 @@ def exec_locals():
     return {}
 
 
-def compile_text(content):
-    return compile(content, '<stdin>', 'exec')
+def compile_text(content, from_file=None):
+    return compile(content, from_file or '<stdin>', 'exec')
 
 
-def execwrap(content):
+def execwrap(content, from_file=None):
+    from_file = from_file or '<stdin>'
     if isinstance(content, six.string_types):
-        content = compile_text(content)
+        content = compile_text(content, from_file=from_file)
 
     def _inner():
         global_env = exec_globals()
@@ -70,9 +71,9 @@ def execwrap(content):
     except Exception:
         if output_handler is not None:
             output = "%s%s" % (output_handler.read(),
-                               _exception())
+                               _exception(from_file))
         else:
-            output = _exception()
+            output = _exception(from_file)
     else:
         output = output_handler.read()
 

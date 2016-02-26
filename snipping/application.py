@@ -31,13 +31,14 @@ class Application(prompt_toolkit.Application):
 
 
 def get_application(init_file=None):
-    app_engine = engine.Engine()
 
     init_contents = {}
     if init_file is not None:
         init_content = fileutil.read_from_file(init_file)
         if init_content is not None:
             init_contents[buffers.DEFAULT_BUFFER] = init_content
+
+    app_engine = engine.Engine(from_file=init_file)
     contents = app_engine.contents()
     key_binding_manager = key_bindings.registry()
     screen = layout.create_layout(contents, key_binding_manager)
